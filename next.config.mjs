@@ -8,7 +8,7 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   images: {
-    domains: ['v0.blob.com'],
+    domains: ['v0.blob.com', 'blob.v0.dev'],
     unoptimized: true,
   },
   // Ensure static assets are properly handled
