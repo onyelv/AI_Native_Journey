@@ -21,8 +21,9 @@ export default function RootLayout({ children }) {
         <ThemeProvider attribute="class" defaultTheme="light">
           <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
             <div className="container flex h-16 items-center">
-              <Link href="/" className="flex items-center">
+              <Link href="/" className="flex items-center gap-2">
                 <Logo size="md" />
+                <span className="font-bold text-orange-600 text-xl">The Jollof Guys</span>
               </Link>
               <nav className="ml-auto flex gap-4 sm:gap-6">
                 <Link href="/" className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4">
@@ -54,8 +55,9 @@ export default function RootLayout({ children }) {
             <div className="container py-8 md:py-12">
               <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                  <Link href="/" className="flex items-center mb-4">
+                  <Link href="/" className="flex items-center gap-2 mb-4">
                     <Logo size="md" />
+                    <span className="font-bold text-orange-600 text-xl">The Jollof Guys</span>
                   </Link>
                   <p className="text-sm text-muted-foreground">
                     Authentic West African jollof rice in the heart of New York City.
