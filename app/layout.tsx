@@ -20,30 +20,33 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light">
           <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-            <div className="container flex h-16 items-center">
-              <Link href="/" className="flex items-center gap-3">
+            <div className="container flex h-16 items-center px-4">
+              <Link href="/" className="flex items-center gap-2 sm:gap-3">
                 <Logo size="md" />
-                <span className="font-bold text-orange-600 text-xl">The Jollof Guys</span>
+                <span className="font-bold text-orange-600 text-lg sm:text-xl hidden xs:block">The Jollof Guys</span>
               </Link>
-              <nav className="ml-auto flex gap-4 sm:gap-6">
-                <Link href="/" className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4">
+              <nav className="ml-auto flex gap-2 sm:gap-4 lg:gap-6">
+                <Link
+                  href="/"
+                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
+                >
                   Home
                 </Link>
                 <Link
                   href="/about"
-                  className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
+                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
                 >
                   About
                 </Link>
                 <Link
                   href="/menu"
-                  className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
+                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
                 >
                   Menu
                 </Link>
                 <Link
                   href="/contact"
-                  className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
+                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
                 >
                   Contact
                 </Link>
@@ -52,12 +55,12 @@ export default function RootLayout({ children }) {
           </header>
           {children}
           <footer className="border-t bg-orange-50">
-            <div className="container py-8 md:py-12">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                <div>
-                  <Link href="/" className="flex items-center gap-3 mb-4">
+            <div className="container py-6 sm:py-8 md:py-12 px-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+                <div className="col-span-1 sm:col-span-2 md:col-span-1">
+                  <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4">
                     <Logo size="md" />
-                    <span className="font-bold text-orange-600 text-xl">The Jollof Guys</span>
+                    <span className="font-bold text-orange-600 text-lg sm:text-xl">The Jollof Guys</span>
                   </Link>
                   <p className="text-sm text-muted-foreground">
                     Authentic West African jollof rice in the heart of New York City.
@@ -125,11 +128,11 @@ export default function RootLayout({ children }) {
                   </div>
                 </div>
               </div>
-              <div className="border-t mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
-                <p className="text-xs text-muted-foreground">
+              <div className="border-t mt-6 sm:mt-8 pt-6 sm:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <p className="text-xs text-muted-foreground text-center md:text-left">
                   &copy; {new Date().getFullYear()} The Jollof Guys. All rights reserved.
                 </p>
-                <div className="flex gap-4 mt-4 md:mt-0">
+                <div className="flex gap-4">
                   <Link href="#" className="text-xs text-muted-foreground hover:text-orange-600">
                     Privacy Policy
                   </Link>
