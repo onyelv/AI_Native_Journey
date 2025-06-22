@@ -11,12 +11,22 @@ export const metadata = {
   title: "The Jollof Guys - Authentic West African Jollof Rice in NYC",
   description:
     "The Jollof Guys serve authentic West African jollof rice at NYC street markets and cater private events. Experience the rich flavors of West Africa in New York City.",
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
+  },
     generator: 'v0.dev'
 }
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="icon" href="/favicon.png" type="image/png" />
+        <link rel="shortcut icon" href="/favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
+      </head>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light">
           <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
