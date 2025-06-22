@@ -12,9 +12,9 @@ export function Logo({ className = "", size = "md" }: LogoProps) {
   const [imageError, setImageError] = useState(false)
 
   const sizeMap = {
-    sm: { width: 80, height: 32 },
-    md: { width: 120, height: 48 },
-    lg: { width: 160, height: 64 },
+    sm: { width: 120, height: 40 },
+    md: { width: 180, height: 60 },
+    lg: { width: 240, height: 80 },
   }
 
   const textSizeClasses = {
@@ -30,7 +30,7 @@ export function Logo({ className = "", size = "md" }: LogoProps) {
   return (
     <div className={`flex items-center ${className}`}>
       <Image
-        src="/images/jollof-main-logo.png"
+        src="/images/jollof-logo-wide.png"
         alt="The Jollof Guys Logo"
         width={sizeMap[size].width}
         height={sizeMap[size].height}

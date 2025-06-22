@@ -20,10 +20,9 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light">
           <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-            <div className="container flex h-20 items-center px-4">
+            <div className="container flex h-24 items-center px-4">
               <Link href="/" className="flex items-center gap-2 sm:gap-3">
                 <Logo size="md" />
-                <span className="font-bold text-orange-600 text-lg sm:text-xl hidden xs:block">The Jollof Guys</span>
               </Link>
               <nav className="ml-auto flex items-center gap-2 sm:gap-4 lg:gap-6">
                 <Link
@@ -65,8 +64,7 @@ export default function RootLayout({ children }) {
               <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
                 <div className="col-span-1 sm:col-span-2 md:col-span-1">
                   <Link href="/" className="flex items-center gap-2 sm:gap-3 mb-4">
-                    <Logo size="md" />
-                    <span className="font-bold text-orange-600 text-lg sm:text-xl">The Jollof Guys</span>
+                    <Logo size="sm" />
                   </Link>
                   <p className="text-sm text-muted-foreground">
                     Authentic West African jollof rice in the heart of New York City.
