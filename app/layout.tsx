@@ -20,7 +20,7 @@ export default function RootLayout({ children }) {
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="light">
           <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur">
-            <div className="container flex h-16 items-center px-4">
+            <div className="container flex h-20 items-center px-4">
               <Link href="/" className="flex items-center gap-2 sm:gap-3">
                 <Logo size="md" />
                 <span className="font-bold text-orange-600 text-lg sm:text-xl hidden xs:block">The Jollof Guys</span>
