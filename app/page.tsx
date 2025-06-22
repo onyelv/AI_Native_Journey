@@ -23,16 +23,9 @@ export default function Home() {
           <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8">
             Experience the rich, aromatic flavors of traditional jollof rice in the heart of NYC
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+          <div className="flex justify-center">
             <Button size="lg" className="bg-orange-600 hover:bg-orange-700 w-full sm:w-auto">
               <Link href="/menu">View Our Menu</Link>
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-black w-full sm:w-auto"
-            >
-              Book Catering
             </Button>
           </div>
         </div>

@@ -12,9 +12,9 @@ export function Logo({ className = "", size = "md" }: LogoProps) {
   const [imageError, setImageError] = useState(false)
 
   const sizeMap = {
-    sm: { width: 32, height: 32 },
-    md: { width: 48, height: 48 },
-    lg: { width: 64, height: 64 },
+    sm: { width: 80, height: 32 },
+    md: { width: 120, height: 48 },
+    lg: { width: 160, height: 64 },
   }
 
   const textSizeClasses = {
@@ -30,11 +30,11 @@ export function Logo({ className = "", size = "md" }: LogoProps) {
   return (
     <div className={`flex items-center ${className}`}>
       <Image
-        src="/images/jollof-circle-logo.png"
+        src="/images/jollof-main-logo.png"
         alt="The Jollof Guys Logo"
         width={sizeMap[size].width}
         height={sizeMap[size].height}
-        className="rounded-full"
+        className="object-contain"
         onError={() => setImageError(true)}
         priority={true}
       />

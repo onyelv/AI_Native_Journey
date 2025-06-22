@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
                 <Logo size="md" />
                 <span className="font-bold text-orange-600 text-lg sm:text-xl hidden xs:block">The Jollof Guys</span>
               </Link>
-              <nav className="ml-auto flex gap-2 sm:gap-4 lg:gap-6">
+              <nav className="ml-auto flex items-center gap-2 sm:gap-4 lg:gap-6">
                 <Link
                   href="/"
                   className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
@@ -49,6 +49,12 @@ export default function RootLayout({ children }) {
                   className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
                 >
                   Contact
+                </Link>
+                <Link
+                  href="/contact"
+                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
+                >
+                  Book Catering
                 </Link>
               </nav>
             </div>
