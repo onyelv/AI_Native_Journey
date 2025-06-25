@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
-Interactive Story Generator
-AI-powered storytelling application with tense guidance for teenagers
-Enhanced with better data structure management and interactive questions
+Interactive Story Generator - Original Style with Enhanced Features
+Simple, clean interface with all the advanced functionality
 """
 
 import re
@@ -179,7 +178,7 @@ class StoryManager:
             'total_questions': total_questions,
             'correct_answers': correct_answers,
             'accuracy_percentage': accuracy,
-            'recent_performance': [score['is_correct'] for score in self.quiz_scores[-5:]]  # Last 5 questions
+            'recent_performance': [score['is_correct'] for score in self.quiz_scores[-5:]]
         }
     
     def add_story_element(self, element_type: str, value: str) -> bool:
@@ -290,9 +289,9 @@ def ask_interactive_question() -> str:
     """
     question_data = story_manager.get_random_question()
     
-    print("\n" + "="*60)
+    print("\n" + "="*50)
     print("🎯 INTERACTIVE STORY QUESTION")
-    print("="*60)
+    print("="*50)
     print(f"Question: {question_data['question']}")
     print("\nOptions:")
     
@@ -300,7 +299,7 @@ def ask_interactive_question() -> str:
     for i, option in enumerate(question_data['options'], 1):
         print(f"   {chr(64 + i)}. {option}")
     
-    print("="*60)
+    print("="*50)
     
     # Get user answer
     while True:
@@ -647,17 +646,17 @@ def generate_interactive_story() -> str:
         return ""
 
 def main():
-    """Main execution function with enhanced menu."""
+    """Main execution function with original simple style."""
     while True:
-        print("\n" + "="*60)
-        print("🎭 Interactive Story Generator - Enhanced Edition")
-        print("="*60)
+        print("\n" + "="*50)
+        print("🎭 Interactive Story Generator")
+        print("="*50)
         print("1. Create a new story")
         print("2. Take a storytelling quiz")
         print("3. View story history")
         print("4. View quiz statistics")
         print("5. Exit")
-        print("="*60)
+        print("="*50)
         
         choice = input("Choose an option (1-5): ").strip()
         
