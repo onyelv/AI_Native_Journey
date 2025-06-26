@@ -153,6 +153,16 @@
             box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
         }
 
+        .form-input.valid {
+            border-color: #2ECC71;
+            box-shadow: 0 0 5px rgba(46, 204, 113, 0.3);
+        }
+
+        .form-input.invalid {
+            border-color: #E74C3C;
+            box-shadow: 0 0 5px rgba(231, 76, 60, 0.3);
+        }
+
         .button-group {
             display: flex;
             gap: 15px;
@@ -193,6 +203,20 @@
             margin: 20px 0;
             border-left: 5px solid #2ECC71;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .story-content {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+        }
+
+        .story-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 15px;
         }
 
         .quiz-question {
@@ -300,6 +324,76 @@
                 padding: 20px;
             }
         }
+
+        /* Notification styles */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 10000;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #2ECC71 0%, #27AE60 100%);
+            color: white;
+        }
+
+        .notification.error {
+            background: linear-gradient(135deg, #E74C3C 0%, #C0392B 100%);
+            color: white;
+        }
+
+        .notification-content {
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .notification-icon {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .notification-text {
+            flex: 1;
+            line-height: 1.4;
+        }
+
+        .notification-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background-color 0.3s ease;
+        }
+
+        .notification-close:hover {
+            background-color: rgba(255,255,255,0.2);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
     </style>
 </head>
 <body>
@@ -311,19 +405,19 @@
 
         <div class="menu-grid">
             <button class="menu-button create" onclick="openModal('create-story')">
-                📚 Create a New Story
+                🎭 Create Story
             </button>
             <button class="menu-button quiz" onclick="openModal('quiz')">
-                🎯 Take a Storytelling Quiz
+                🧠 Take Quiz
             </button>
             <button class="menu-button history" onclick="openModal('history')">
-                📖 View Story History
+                📖 Story History
             </button>
             <button class="menu-button stats" onclick="openModal('statistics')">
-                📊 View Quiz Statistics
+                📊 Quiz Statistics
             </button>
-            <button class="menu-button exit" onclick="exitApp()">
-                ❌ Exit
+            <button class="menu-button exit" onclick="testConnection()">
+                🔧 Test Connection
             </button>
         </div>
     </div>
@@ -424,164 +518,67 @@
     </div>
 
     <script>
-        // Story Manager
-        class StoryManager {
-            constructor() {
-                this.currentStory = {};
-                this.storyHistory = JSON.parse(localStorage.getItem('storyHistory') || '[]');
-                this.quizScores = JSON.parse(localStorage.getItem('quizScores') || '[]');
-                
-                this.interactiveQuestions = [
-                    {
-                        question: 'What type of story are we creating?',
-                        options: ['Adventure', 'Mystery', 'Fantasy', 'Science Fiction', 'Realistic'],
-                        correctAnswer: 'Adventure',
-                        explanation: 'Adventure stories are exciting and full of action!',
-                        category: 'story_type'
-                    },
-                    {
-                        question: 'What should be the main character\'s personality trait?',
-                        options: ['Brave and courageous', 'Smart and clever', 'Kind and caring', 'Funny and witty', 'Strong and determined'],
-                        correctAnswer: 'Brave and courageous',
-                        explanation: 'Brave characters make for exciting adventures!',
-                        category: 'character_trait'
-                    },
-                    {
-                        question: 'Where should our story take place?',
-                        options: ['A magical forest', 'A busy city', 'A mysterious island', 'A space station', 'A hidden cave'],
-                        correctAnswer: 'A magical forest',
-                        explanation: 'Magical forests are perfect for adventure stories!',
-                        category: 'setting'
-                    },
-                    {
-                        question: 'What should happen to start the adventure?',
-                        options: ['Find a mysterious map', 'Discover a hidden door', 'Meet a talking animal', 'Receive a magical letter', 'Fall through a portal'],
-                        correctAnswer: 'Find a mysterious map',
-                        explanation: 'Maps lead to treasure and adventure!',
-                        category: 'plot_start'
-                    },
-                    {
-                        question: 'What should the character do next?',
-                        options: ['Follow the map to find treasure', 'Ask for help from friends', 'Study the map carefully', 'Tell an adult about it', 'Ignore the map'],
-                        correctAnswer: 'Follow the map to find treasure',
-                        explanation: 'Following the map will lead to an exciting journey!',
-                        category: 'plot_action'
-                    },
-                    {
-                        question: 'What obstacle should the character face?',
-                        options: ['A dark cave to explore', 'A river to cross', 'A puzzle to solve', 'A storm to weather', 'A creature to befriend'],
-                        correctAnswer: 'A puzzle to solve',
-                        explanation: 'Puzzles make the story more interactive and challenging!',
-                        category: 'obstacle'
-                    },
-                    {
-                        question: 'How should the story end?',
-                        options: ['Find a great treasure', 'Make new friends', 'Learn an important lesson', 'Return home safely', 'Start a new adventure'],
-                        correctAnswer: 'Learn an important lesson',
-                        explanation: 'Stories with lessons are meaningful and memorable!',
-                        category: 'ending'
-                    },
-                    {
-                        question: 'What tense should we use for the story?',
-                        options: ['Past tense (walked, ran)', 'Present tense (walk, run)', 'Future tense (will walk, will run)', 'Mixed tenses', 'Past perfect (had walked)'],
-                        correctAnswer: 'Past tense (walked, ran)',
-                        explanation: 'Past tense is most common for storytelling!',
-                        category: 'grammar'
-                    },
-                    {
-                        question: 'What should be the story\'s theme?',
-                        options: ['Friendship and teamwork', 'Courage and bravery', 'Discovery and learning', 'Family and love', 'Growth and change'],
-                        correctAnswer: 'Courage and bravery',
-                        explanation: 'Courage themes make stories inspiring!',
-                        category: 'theme'
-                    },
-                    {
-                        question: 'What should the character learn?',
-                        options: ['To be brave in difficult situations', 'To work well with others', 'To think before acting', 'To appreciate what they have', 'To never give up'],
-                        correctAnswer: 'To be brave in difficult situations',
-                        explanation: 'Learning bravery helps characters grow!',
-                        category: 'lesson'
-                    }
-                ];
-            }
-
-            addStoryElement(elementType, value) {
-                this.currentStory[elementType] = value;
-                return true;
-            }
-
-            isStoryComplete() {
-                const requiredElements = ['adjective', 'name', 'place', 'past-action', 'future-action'];
-                return requiredElements.every(element => this.currentStory[element]);
-            }
-
-            saveCurrentStory() {
-                if (this.isStoryComplete()) {
-                    const storyWithTimestamp = {
-                        ...this.currentStory,
-                        timestamp: new Date().toISOString(),
-                        storyId: this.storyHistory.length + 1
-                    };
-                    this.storyHistory.push(storyWithTimestamp);
-                    this.saveStories();
-                }
-            }
-
-            saveStories() {
-                localStorage.setItem('storyHistory', JSON.stringify(this.storyHistory));
-            }
-
-            getStoryHistory() {
-                return this.storyHistory;
-            }
-
-            clearCurrentStory() {
-                this.currentStory = {};
-            }
-
-            getRandomQuestion() {
-                return this.interactiveQuestions[Math.floor(Math.random() * this.interactiveQuestions.length)];
-            }
-
-            addQuizScore(question, userAnswer, correctAnswer, isCorrect) {
-                const scoreEntry = {
-                    question: question,
-                    userAnswer: userAnswer,
-                    correctAnswer: correctAnswer,
-                    isCorrect: isCorrect,
-                    timestamp: new Date().toISOString()
-                };
-                this.quizScores.push(scoreEntry);
-                this.saveQuizScores();
-            }
-
-            saveQuizScores() {
-                localStorage.setItem('quizScores', JSON.stringify(this.quizScores));
-            }
-
-            getQuizStatistics() {
-                if (this.quizScores.length === 0) {
-                    return null;
-                }
-
-                const totalQuestions = this.quizScores.length;
-                const correctAnswers = this.quizScores.filter(score => score.isCorrect).length;
-                const accuracy = (correctAnswers / totalQuestions) * 100;
-                const recentPerformance = this.quizScores.slice(-5).map(score => score.isCorrect);
-
-                return {
-                    totalQuestions: totalQuestions,
-                    correctAnswers: correctAnswers,
-                    accuracyPercentage: accuracy,
-                    recentPerformance: recentPerformance
-                };
-            }
-        }
-
         // Global variables
-        const storyManager = new StoryManager();
         let currentQuestion = null;
         let selectedAnswer = null;
+
+        // API functions
+        async function apiCall(endpoint, method = 'GET', data = null) {
+            try {
+                const options = {
+                    method: method,
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                };
+                
+                if (data) {
+                    options.body = JSON.stringify(data);
+                }
+                
+                console.log('Making API call to:', endpoint, 'with data:', data);
+                console.log('Request options:', options);
+                
+                // Add timeout to prevent hanging requests
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+                
+                const response = await fetch(endpoint, {
+                    ...options,
+                    signal: controller.signal
+                });
+                
+                clearTimeout(timeoutId);
+                console.log('Response status:', response.status);
+                console.log('Response headers:', response.headers);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error('Response error text:', errorText);
+                    throw new Error(`HTTP ${response.status}: ${response.statusText} - ${errorText}`);
+                }
+                
+                const result = await response.json();
+                console.log('Response data:', result);
+                
+                return result;
+            } catch (error) {
+                console.error('API Error:', error);
+                console.error('Error name:', error.name);
+                console.error('Error message:', error.message);
+                
+                // Provide more specific error messages
+                if (error.name === 'AbortError') {
+                    throw new Error('Request timed out. Please check your connection and try again.');
+                } else if (error.message.includes('Failed to fetch')) {
+                    throw new Error('Unable to connect to the server. Please make sure the server is running on http://localhost:5002');
+                } else if (error.message.includes('NetworkError')) {
+                    throw new Error('Network error. Please check your internet connection.');
+                } else {
+                    throw error;
+                }
+            }
+        }
 
         // Modal functions
         function openModal(modalId) {
@@ -606,50 +603,169 @@
             }
         }
 
-        // Story creation
-        document.getElementById('story-form').addEventListener('submit', function(e) {
+        // Story creation - Now uses Python backend API
+        document.getElementById('story-form').addEventListener('submit', async function(e) {
             e.preventDefault();
             
             const formData = new FormData(e.target);
             const storyData = {};
+            let hasErrors = false;
             
-            // Collect form data
+            // Collect and validate form data
             ['adjective', 'name', 'place', 'past-action', 'future-action'].forEach(field => {
-                const value = document.getElementById(field).value.trim();
+                const input = document.getElementById(field);
+                const value = input.value.trim();
+                
+                // Clear previous validation states
+                input.classList.remove('valid', 'invalid');
+                
                 if (!value) {
+                    input.classList.add('invalid');
                     showError(`Please enter a ${field.replace('-', ' ')}!`);
+                    hasErrors = true;
                     return;
                 }
+                
+                // Basic client-side validation
+                if (field === 'adjective' && value.length < 2) {
+                    input.classList.add('invalid');
+                    showError('Adjective must be at least 2 characters long!');
+                    hasErrors = true;
+                    return;
+                }
+                
+                if (field === 'name' && value.length < 2) {
+                    input.classList.add('invalid');
+                    showError('Name must be at least 2 characters long!');
+                    hasErrors = true;
+                    return;
+                }
+                
+                if (field === 'place' && value.length < 3) {
+                    input.classList.add('invalid');
+                    showError('Place must be at least 3 characters long!');
+                    hasErrors = true;
+                    return;
+                }
+                
+                if (field === 'past-action' && !value.toLowerCase().endsWith('ed') && !['went', 'saw', 'came', 'found', 'made', 'took', 'gave', 'wrote', 'drove', 'flew', 'ate', 'drank', 'ran', 'swam', 'built', 'bought', 'brought', 'caught', 'chose', 'drew', 'fell', 'felt', 'fought', 'forgot', 'got', 'grew', 'heard', 'held', 'kept', 'knew', 'left', 'lost', 'met', 'paid', 'put', 'read', 'rode', 'said', 'sat', 'slept', 'spoke', 'stood', 'thought', 'threw', 'understood', 'woke', 'wore', 'won', 'wrote', 'broke', 'chose', 'drove', 'froze', 'hid', 'rode', 'rose', 'shook', 'shrank', 'sprang', 'stole', 'struck', 'swore', 'tore', 'wore', 'wrote'].includes(value.toLowerCase())) {
+                    input.classList.add('invalid');
+                    showError('Past action should be in past tense (e.g., walked, discovered, found)!');
+                    hasErrors = true;
+                    return;
+                }
+                
+                if (field === 'future-action' && !value.toLowerCase().startsWith('will ')) {
+                    input.classList.add('invalid');
+                    showError('Future action should start with "will" (e.g., will discover, will find)!');
+                    hasErrors = true;
+                    return;
+                }
+                
+                input.classList.add('valid');
                 storyData[field] = value;
-                storyManager.addStoryElement(field, value);
             });
             
-            if (Object.keys(storyData).length === 5) {
-                const story = buildStory(storyData);
-                storyManager.saveCurrentStory();
-                displayStory(story);
+            if (!hasErrors && Object.keys(storyData).length === 5) {
+                try {
+                    // Show loading state
+                    const submitBtn = document.querySelector('#story-form button[type="submit"]');
+                    const originalText = submitBtn.textContent;
+                    submitBtn.textContent = 'Creating Story...';
+                    submitBtn.disabled = true;
+                    
+                    const result = await apiCall('/api/generate_story', 'POST', storyData);
+                    
+                    if (result.success) {
+                        displayStory(result.story);
+                        showSuccess('🎭 Story created successfully!');
+                    } else {
+                        showError(result.error || 'Failed to generate story');
+                    }
+                } catch (error) {
+                    console.error('Story generation error:', error);
+                    showError(`Failed to generate story: ${error.message}`);
+                } finally {
+                    // Reset button state
+                    const submitBtn = document.querySelector('#story-form button[type="submit"]');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
             }
         });
-
-        function buildStory(storyData) {
-            return `Once upon a time, there was a ${storyData['adjective']} teenager named ${storyData['name']} who lived in a ${storyData['place']}. One day, they ${storyData['past-action']} something that would change their life forever. Now, they ${storyData['future-action']} to make their dreams come true. And so, their incredible journey began...`;
-        }
 
         function displayStory(story) {
             const resultDiv = document.getElementById('story-result');
             resultDiv.innerHTML = `
                 <h3 style="color: #2ECC71; margin-bottom: 15px;">🎭 Your Amazing Story</h3>
-                <p style="line-height: 1.6; font-size: 1.1rem;">${story}</p>
+                <div class="story-content">
+                    <p style="line-height: 1.8; font-size: 1.1rem; text-align: justify; margin-bottom: 20px;">${story}</p>
+                    <div class="story-actions">
+                        <button class="btn btn-primary" onclick="copyStoryToClipboard()">
+                            📋 Copy Story
+                        </button>
+                        <button class="btn btn-secondary" onclick="shareStory()">
+                            📤 Share Story
+                        </button>
+                    </div>
+                </div>
             `;
             resultDiv.classList.remove('hidden');
         }
 
-        // Quiz functions
-        function startQuiz() {
-            currentQuestion = storyManager.getRandomQuestion();
-            document.getElementById('quiz-start').classList.add('hidden');
-            document.getElementById('quiz-question').classList.remove('hidden');
-            displayQuestion();
+        function copyStoryToClipboard() {
+            const storyText = document.querySelector('.story-content p').textContent;
+            navigator.clipboard.writeText(storyText).then(() => {
+                showSuccess('📋 Story copied to clipboard!');
+            }).catch(() => {
+                showError('Failed to copy story. Please select and copy manually.');
+            });
+        }
+
+        function shareStory() {
+            const storyText = document.querySelector('.story-content p').textContent;
+            if (navigator.share) {
+                navigator.share({
+                    title: 'My Amazing Story',
+                    text: storyText,
+                    url: window.location.href
+                }).then(() => {
+                    showSuccess('📤 Story shared successfully!');
+                }).catch(() => {
+                    showError('Failed to share story.');
+                });
+            } else {
+                copyStoryToClipboard();
+            }
+        }
+
+        // Quiz functions - Now uses Python backend API
+        async function startQuiz() {
+            try {
+                // Show loading state
+                const startBtn = document.querySelector('#quiz-start button');
+                const originalText = startBtn.textContent;
+                startBtn.textContent = 'Loading Question...';
+                startBtn.disabled = true;
+                
+                const result = await apiCall('/api/get_question');
+                
+                if (result.success) {
+                    currentQuestion = result.question;
+                    document.getElementById('quiz-start').classList.add('hidden');
+                    document.getElementById('quiz-question').classList.remove('hidden');
+                    displayQuestion();
+                } else {
+                    showError(result.error);
+                }
+            } catch (error) {
+                showError('Failed to load question. Please try again.');
+            } finally {
+                // Reset button state
+                const startBtn = document.querySelector('#quiz-start button');
+                startBtn.textContent = originalText;
+                startBtn.disabled = false;
+            }
         }
 
         function displayQuestion() {
@@ -674,114 +790,182 @@
             selectedAnswer = answer;
         }
 
-        function submitAnswer() {
+        async function submitAnswer() {
             if (!selectedAnswer) {
                 showError('Please select an answer!');
                 return;
             }
 
-            const isCorrect = selectedAnswer === currentQuestion.correctAnswer;
-            
-            storyManager.addQuizScore(
-                currentQuestion.question,
-                selectedAnswer,
-                currentQuestion.correctAnswer,
-                isCorrect
-            );
+            try {
+                // Show loading state
+                const submitBtn = document.querySelector('#quiz-question button');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Checking...';
+                submitBtn.disabled = true;
+                
+                const result = await apiCall('/api/submit_answer', 'POST', {
+                    question: currentQuestion,
+                    user_answer: selectedAnswer
+                });
+                
+                if (result.success) {
+                    if (result.is_correct) {
+                        showSuccess(`🎉 Correct! ${result.explanation}`);
+                    } else {
+                        showError(`The best answer was: ${result.correct_answer}\n\n${result.explanation}`);
+                    }
 
-            if (isCorrect) {
-                showSuccess(`🎉 Correct! ${currentQuestion.explanation}`);
-            } else {
-                showError(`The best answer was: ${currentQuestion.correctAnswer}\n\n${currentQuestion.explanation}`);
-            }
-
-            if (confirm('Would you like another question?')) {
-                currentQuestion = storyManager.getRandomQuestion();
-                selectedAnswer = null;
-                displayQuestion();
-            } else {
-                closeModal('quiz');
+                    // Add a small delay before asking for next question
+                    setTimeout(() => {
+                        if (confirm('Would you like another question?')) {
+                            startQuiz();
+                        } else {
+                            closeModal('quiz');
+                        }
+                    }, 1500);
+                } else {
+                    showError(result.error);
+                }
+            } catch (error) {
+                showError('Failed to submit answer. Please try again.');
+            } finally {
+                // Reset button state
+                const submitBtn = document.querySelector('#quiz-question button');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
             }
         }
 
-        // History functions
-        function displayHistory() {
-            const history = storyManager.getStoryHistory();
-            const contentDiv = document.getElementById('history-content');
-            
-            if (history.length === 0) {
-                contentDiv.innerHTML = '<p style="text-align: center; font-size: 1.1rem;">No saved stories yet. Create your first story!</p>';
-                return;
-            }
+        // History functions - Now uses Python backend API
+        async function displayHistory() {
+            try {
+                const result = await apiCall('/api/get_history');
+                
+                if (result.success) {
+                    const history = result.history;
+                    const contentDiv = document.getElementById('history-content');
+                    
+                    if (history.length === 0) {
+                        contentDiv.innerHTML = '<p style="text-align: center; font-size: 1.1rem;">No saved stories yet. Create your first story!</p>';
+                        return;
+                    }
 
-            let html = '';
-            history.slice(-10).reverse().forEach(story => {
-                html += `
-                    <div class="history-item">
-                        <h4>Story #${story.storyId}</h4>
-                        <p><strong>Created:</strong> ${new Date(story.timestamp).toLocaleString()}</p>
-                        <p><strong>Character:</strong> ${story.name} - ${story.adjective}</p>
-                        <p><strong>Setting:</strong> ${story.place}</p>
-                    </div>
-                `;
-            });
-            
-            contentDiv.innerHTML = html;
+                    let html = '';
+                    history.slice(-10).reverse().forEach(story => {
+                        html += `
+                            <div class="history-item">
+                                <h4>Story #${story.story_id}</h4>
+                                <p><strong>Created:</strong> ${new Date(story.timestamp).toLocaleString()}</p>
+                                <p><strong>Character:</strong> ${story.name} - ${story.adjective}</p>
+                                <p><strong>Setting:</strong> ${story.place}</p>
+                            </div>
+                        `;
+                    });
+                    
+                    contentDiv.innerHTML = html;
+                } else {
+                    showError(result.error);
+                }
+            } catch (error) {
+                showError('Failed to load history. Please try again.');
+            }
         }
 
-        // Statistics functions
-        function displayStatistics() {
-            const stats = storyManager.getQuizStatistics();
-            const contentDiv = document.getElementById('stats-content');
-            
-            if (!stats) {
-                contentDiv.innerHTML = '<p style="text-align: center; font-size: 1.1rem;">No quiz data available yet. Take some questions first!</p>';
-                return;
-            }
+        // Statistics functions - Now uses Python backend API
+        async function displayStatistics() {
+            try {
+                const result = await apiCall('/api/get_statistics');
+                
+                if (result.success) {
+                    const stats = result.statistics;
+                    const contentDiv = document.getElementById('stats-content');
+                    
+                    if (!stats || Object.keys(stats).length === 0) {
+                        contentDiv.innerHTML = '<p style="text-align: center; font-size: 1.1rem;">No quiz data available yet. Take some questions first!</p>';
+                        return;
+                    }
 
-            let encouragement = '';
-            if (stats.accuracyPercentage >= 80) {
-                encouragement = '🌟 Excellent! You\'re a storytelling expert!';
-            } else if (stats.accuracyPercentage >= 60) {
-                encouragement = '👍 Good job! Keep learning and improving!';
-            } else {
-                encouragement = '📚 Keep practicing! Storytelling takes time to master!';
-            }
+                    let encouragement = '';
+                    if (stats.accuracy_percentage >= 80) {
+                        encouragement = '🌟 Excellent! You\'re a storytelling expert!';
+                    } else if (stats.accuracy_percentage >= 60) {
+                        encouragement = '👍 Good job! Keep learning and improving!';
+                    } else {
+                        encouragement = '📚 Keep practicing! Storytelling takes time to master!';
+                    }
 
-            const recentCorrect = stats.recentPerformance.filter(Boolean).length;
-            
-            contentDiv.innerHTML = `
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">${stats.totalQuestions}</div>
-                        <div class="stat-label">Total Questions</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">${stats.correctAnswers}</div>
-                        <div class="stat-label">Correct Answers</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">${stats.accuracyPercentage.toFixed(1)}%</div>
-                        <div class="stat-label">Accuracy</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">${recentCorrect}/${stats.recentPerformance.length}</div>
-                        <div class="stat-label">Recent (Last 5)</div>
-                    </div>
-                </div>
-                <div class="success-message">
-                    <strong>${encouragement}</strong>
-                </div>
-            `;
+                    const recentCorrect = stats.recent_performance.filter(Boolean).length;
+                    
+                    contentDiv.innerHTML = `
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-number">${stats.total_questions}</div>
+                                <div class="stat-label">Total Questions</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${stats.correct_answers}</div>
+                                <div class="stat-label">Correct Answers</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${stats.accuracy_percentage.toFixed(1)}%</div>
+                                <div class="stat-label">Accuracy</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-number">${recentCorrect}/${stats.recent_performance.length}</div>
+                                <div class="stat-label">Recent (Last 5)</div>
+                            </div>
+                        </div>
+                        <div class="success-message">
+                            <strong>${encouragement}</strong>
+                        </div>
+                    `;
+                } else {
+                    showError(result.error);
+                }
+            } catch (error) {
+                showError('Failed to load statistics. Please try again.');
+            }
         }
 
         // Utility functions
         function showSuccess(message) {
-            alert(message);
+            const notification = document.createElement('div');
+            notification.className = 'notification success';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-icon">✅</span>
+                    <span class="notification-text">${message}</span>
+                    <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 5 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 5000);
         }
 
         function showError(message) {
-            alert(message);
+            const notification = document.createElement('div');
+            notification.className = 'notification error';
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span class="notification-icon">❌</span>
+                    <span class="notification-text">${message.replace(/\n/g, '<br>')}</span>
+                    <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+                </div>
+            `;
+            document.body.appendChild(notification);
+            
+            // Auto-remove after 8 seconds for errors
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 8000);
         }
 
         function exitApp() {
@@ -798,6 +982,21 @@
                     modal.style.display = 'none';
                 }
             });
+        }
+
+        function testConnection() {
+            console.log('Testing connection to server...');
+            
+            // Test the health endpoint
+            apiCall('/api/health')
+                .then(result => {
+                    console.log('Connection test successful:', result);
+                    showSuccess('✅ Connection successful! Server is running correctly.');
+                })
+                .catch(error => {
+                    console.error('Connection test failed:', error);
+                    showError(`❌ Connection failed: ${error.message}\n\nPlease make sure:\n1. The server is running on http://localhost:5002\n2. You're accessing the app from the correct URL\n3. No firewall is blocking the connection`);
+                });
         }
     </script>
 </body>

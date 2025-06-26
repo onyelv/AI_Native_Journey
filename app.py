@@ -5,6 +5,7 @@ Integrates Python backend with HTML frontend
 """
 
 from flask import Flask, render_template, request, jsonify, session
+from flask_cors import CORS
 import re
 import json
 import os
@@ -16,6 +17,9 @@ import uuid
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key-here'  # Change this in production
+
+# Enable CORS for all routes
+CORS(app, resources={r"/api/*": {"origins": "*"}})
 
 @dataclass
 class StoryElement:
@@ -55,7 +59,7 @@ class StoryManager:
             },
             'future_action': {
                 'rules': ['future_tense', 'will_format'],
-                'examples': ['will discover', 'will explore', 'will create', 'will build', 'will learn']
+                'examples': ['will discover how to make dreams come true', 'will find the courage to pursue goals', 'will learn to overcome obstacles', 'will discover strength within', 'will find a way to succeed']
             }
         }
         
@@ -203,15 +207,41 @@ class StoryManager:
         return all(element in self.current_story for element in required_elements)
     
     def save_current_story(self) -> None:
-        """Saves the current story to history."""
-        if self.is_story_complete():
-            story_with_timestamp = {
-                **self.current_story,
+        """Saves the current story to history with metadata."""
+        if self.current_story:
+            story_entry = {
+                'story_id': str(uuid.uuid4())[:8],  # Short unique ID
                 'timestamp': datetime.now().isoformat(),
-                'story_id': len(self.story_history) + 1
+                'adjective': self.current_story.get('adjective', ''),
+                'name': self.current_story.get('name', ''),
+                'place': self.current_story.get('place', ''),
+                'past_action': self.current_story.get('past_action', ''),
+                'future_action': self.current_story.get('future_action', ''),
+                'full_story': self._build_story_from_current()
             }
-            self.story_history.append(story_with_timestamp)
+            
+            self.story_history.append(story_entry)
+            
+            # Keep only the last 50 stories to prevent file bloat
+            if len(self.story_history) > 50:
+                self.story_history = self.story_history[-50:]
+            
             self.save_stories()
+    
+    def _build_story_from_current(self) -> str:
+        """Builds a story from current story data."""
+        if not self.current_story:
+            return ""
+        
+        story_data = {
+            'adjective': self.current_story.get('adjective', ''),
+            'name': self.current_story.get('name', ''),
+            'place': self.current_story.get('place', ''),
+            'past_action': self.current_story.get('past_action', ''),
+            'future_action': self.current_story.get('future_action', '')
+        }
+        
+        return build_story(story_data)
     
     def get_story_history(self) -> List[Dict[str, str]]:
         """Returns the list of saved stories."""
@@ -290,36 +320,67 @@ def index():
     """Main page route."""
     return render_template('interactive_story_generator.html')
 
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    """Health check endpoint for debugging."""
+    return jsonify({
+        'success': True,
+        'status': 'healthy',
+        'message': 'Server is running correctly',
+        'timestamp': datetime.now().isoformat()
+    })
+
 @app.route('/api/generate_story', methods=['POST'])
 def generate_story():
     """API endpoint to generate a story."""
     try:
         data = request.get_json()
+        print(f"Received data: {data}")  # Debug output
         
-        # Validate required fields
-        required_fields = ['adjective', 'name', 'place', 'past_action', 'future_action']
+        # Validate required fields - using the field names that the HTML form sends
+        required_fields = ['adjective', 'name', 'place', 'past-action', 'future-action']
         for field in required_fields:
             if field not in data or not data[field].strip():
+                error_msg = f'Missing or empty field: {field}'
+                print(f"Validation error: {error_msg}")  # Debug output
                 return jsonify({
                     'success': False,
-                    'error': f'Missing or empty field: {field}'
+                    'error': error_msg
                 }), 400
         
         # Validate each field
-        for field in required_fields:
-            if not story_manager.validate_input(data[field], field):
-                examples = story_manager.get_validation_examples(field)
+        field_mapping = {
+            'adjective': 'adjective',
+            'name': 'name', 
+            'place': 'place',
+            'past-action': 'past_action',
+            'future-action': 'future_action'
+        }
+        
+        for html_field, story_field in field_mapping.items():
+            if not story_manager.validate_input(data[html_field], story_field):
+                examples = story_manager.get_validation_examples(story_field)
+                error_msg = f'Invalid {html_field.replace("-", " ")}. Examples: {", ".join(examples[:3])}'
+                print(f"Validation error: {error_msg}")  # Debug output
                 return jsonify({
                     'success': False,
-                    'error': f'Invalid {field}. Examples: {", ".join(examples[:3])}'
+                    'error': error_msg
                 }), 400
         
-        # Add story elements
-        for field in required_fields:
-            story_manager.add_story_element(field, data[field])
+        # Add story elements - convert field names to match StoryManager expectations
+        for html_field, story_field in field_mapping.items():
+            story_manager.add_story_element(story_field, data[html_field])
         
-        # Build the story
-        story = build_story(data)
+        # Build the story - convert field names for the story building function
+        story_data = {
+            'adjective': data['adjective'],
+            'name': data['name'],
+            'place': data['place'],
+            'past_action': data['past-action'],
+            'future_action': data['future-action']
+        }
+        
+        story = build_story(story_data)
         
         # Save the story
         story_manager.save_current_story()
@@ -331,20 +392,53 @@ def generate_story():
         })
         
     except Exception as e:
+        print(f"Exception in generate_story: {str(e)}")  # Debug output
         return jsonify({
             'success': False,
             'error': f'An error occurred: {str(e)}'
         }), 500
 
 def build_story(story_data: Dict[str, str]) -> str:
-    """Builds the complete story from user inputs."""
+    """Builds the complete story from user inputs with improved grammar."""
+    # Ensure all required keys exist
+    required_keys = ['adjective', 'name', 'place', 'past_action', 'future_action']
+    for key in required_keys:
+        if key not in story_data:
+            story_data[key] = f"[missing {key}]"
+    
+    # Clean and improve the inputs
+    adjective = story_data['adjective'].strip().lower()
+    name = story_data['name'].strip()
+    place = story_data['place'].strip()
+    past_action = story_data['past_action'].strip()
+    future_action = story_data['future_action'].strip()
+    
+    # Fix common grammar issues in future actions
+    if future_action.lower().startswith('will ') and len(future_action.split()) <= 3:
+        # Common patterns that work well
+        better_future_actions = [
+            f"will discover how to make their dreams come true",
+            f"will find the courage to pursue their dreams",
+            f"will learn to overcome any obstacle",
+            f"will discover the strength within themselves",
+            f"will find a way to achieve their goals"
+        ]
+        future_action = random.choice(better_future_actions)
+    
+    # Ensure proper article usage for place
+    place_article = "a"
+    if place.lower().startswith(('a', 'e', 'i', 'o', 'u')):
+        place_article = "an"
+    
+    # Create a more engaging story structure
     story = (
-        f"Once upon a time, there was a {story_data['adjective']} teenager named "
-        f"{story_data['name']} who lived in a {story_data['place']}. "
-        f"One day, they {story_data['past_action']} something that would change "
-        f"their life forever. Now, they {story_data['future_action']} to make "
-        f"their dreams come true. And so, their incredible journey began..."
+        f"Once upon a time, there was a {adjective} teenager named "
+        f"{name} who lived in {place_article} {place}. "
+        f"One day, they {past_action} something that would change "
+        f"their life forever. Now, they {future_action}. "
+        f"And so, their incredible journey began..."
     )
+    
     return story
 
 @app.route('/api/get_question', methods=['GET'])
@@ -472,8 +566,8 @@ if __name__ == '__main__':
     print("🎭 Interactive Story Generator - Flask Web Application")
     print("=" * 50)
     print("Starting server...")
-    print("Open your browser and go to: http://localhost:5001")
+    print("Open your browser and go to: http://localhost:5002")
     print("Press Ctrl+C to stop the server")
     print("=" * 50)
     
-    app.run(debug=True, host='0.0.0.0', port=5001) 
+    app.run(debug=True, host='0.0.0.0', port=5002) 
