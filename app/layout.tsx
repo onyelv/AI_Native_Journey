@@ -35,33 +35,30 @@ export default function RootLayout({ children }) {
                 <Logo size="md" />
               </Link>
               <nav className="ml-auto flex items-center gap-2 sm:gap-4 lg:gap-6">
-                <Link
-                  href="/"
-                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
-                >
+                <Link href="/" className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4">
                   Home
                 </Link>
                 <Link
                   href="/about"
-                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
+                  className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
                 >
                   About
                 </Link>
                 <Link
                   href="/menu"
-                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
+                  className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
                 >
                   Menu
                 </Link>
                 <Link
                   href="/contact"
-                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
+                  className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
                 >
                   Contact
                 </Link>
                 <Link
                   href="/contact"
-                  className="text-xs sm:text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
+                  className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
                 >
                   Book Catering
                 </Link>

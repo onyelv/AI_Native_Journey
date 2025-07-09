@@ -198,7 +198,7 @@ export default function Contact() {
                       <p className="text-muted-foreground mb-2">West 181st St & Broadway, New York, NY 10033</p>
                       <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4" />
-                        <span>Fridays 6PM-11PM</span>
+                        <span>Thursdays 6PM-11PM</span>
                       </div>
                     </div>
                   </div>
@@ -210,7 +210,19 @@ export default function Contact() {
                       <p className="text-muted-foreground mb-2">East Fordham Rd & Grand Concourse, Bronx, NY 10458</p>
                       <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4" />
-                        <span>Fridays 6PM-11PM</span>
+                        <span>Saturdays 6PM-11PM</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-4">
+                    <MapPin className="w-6 h-6 text-orange-600 mt-1" />
+                    <div>
+                      <h3 className="font-semibold">Grand Bazaar NYC</h3>
+                      <p className="text-muted-foreground mb-2">100 W 77th St, New York, NY 10024</p>
+                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                        <Clock className="w-4 h-4" />
+                        <span>Sundays 10AM-5:30PM</span>
                       </div>
                     </div>
                   </div>

@@ -203,7 +203,7 @@ export default function Home() {
                     <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span>Fri 6PM-11PM</span>
+                        <span>Thu 6PM-11PM</span>
                       </div>
                     </div>
                   </div>
@@ -211,7 +211,7 @@ export default function Home() {
               </CardContent>
             </Card>
 
-            <Card className="md:col-span-2 lg:col-span-1 md:mx-auto md:max-w-md lg:max-w-none">
+            <Card>
               <CardContent className="p-4 sm:p-6">
                 <div className="flex items-start gap-3 sm:gap-4">
                   <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 mt-1 flex-shrink-0" />
@@ -223,7 +223,25 @@ export default function Home() {
                     <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span>Fri 6PM-11PM</span>
+                        <span>Sat 6PM-11PM</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardContent className="p-4 sm:p-6">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <MapPin className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 mt-1 flex-shrink-0" />
+                  <div>
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2">Grand Bazaar NYC</h3>
+                    <p className="text-sm sm:text-base text-muted-foreground mb-2">100 W 77th St, New York, NY 10024</p>
+                    <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
+                        <span>Sun 10AM-5:30PM</span>
                       </div>
                     </div>
                   </div>
@@ -298,12 +316,8 @@ export default function Home() {
             Book us for your next event or visit us at one of our market locations
           </p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-orange-600 w-full sm:w-auto"
-            >
-              Book Catering
+            <Button size="lg" className="bg-white text-orange-600 hover:bg-gray-100 w-full sm:w-auto">
+              <Link href="/contact">Book Catering</Link>
             </Button>
             <Button size="lg" className="bg-white text-orange-600 hover:bg-gray-100 w-full sm:w-auto">
               <Link href="/contact">Contact Us</Link>
