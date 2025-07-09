@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Star, MapPin, Clock } from "lucide-react"
+import Image from "next/image"
 
 export default function Home() {
   return (
@@ -92,57 +93,63 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            <Card>
-              <div className="h-40 sm:h-48 bg-gradient-to-br from-orange-400 to-red-500 rounded-t-lg"></div>
-              <CardContent className="p-4 sm:p-6">
+            <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="h-40 sm:h-48 relative rounded-t-lg overflow-hidden bg-gradient-to-br from-orange-100 to-orange-50">
+                <Image
+                  src="/images/classic-jollof-rice-new.jpeg"
+                  alt="Classic Jollof Rice with fried chicken, plantains and coleslaw"
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center 30%",
+                    filter: "brightness(1.05) contrast(1.1) saturate(1.1)",
+                  }}
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+              </div>
+              <CardContent className="p-4 sm:p-6 bg-white">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg sm:text-xl font-semibold">Classic Jollof Rice</h3>
-                  <Badge variant="secondary">$12</Badge>
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Classic Jollof Rice</h3>
+                  <Badge variant="secondary" className="bg-orange-100 text-orange-800 font-semibold">
+                    $16.99
+                  </Badge>
                 </div>
-                <p className="text-sm sm:text-base text-muted-foreground mb-4">
+                <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">
                   Traditional jollof rice with tender chicken, perfectly seasoned with authentic West African spices
                 </p>
                 <div className="flex items-center">
                   <div className="flex text-yellow-400">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
+                      <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current drop-shadow-sm" />
                     ))}
                   </div>
-                  <span className="ml-2 text-xs sm:text-sm text-muted-foreground">(4.9)</span>
+                  <span className="ml-2 text-xs sm:text-sm text-muted-foreground font-medium">(4.9)</span>
                 </div>
               </CardContent>
             </Card>
 
             <Card>
-              <div className="h-40 sm:h-48 bg-gradient-to-br from-green-400 to-blue-500 rounded-t-lg"></div>
+              <div className="h-40 sm:h-48 relative rounded-t-lg overflow-hidden bg-gray-100">
+                <Image
+                  src="/images/fried-rice.jpeg"
+                  alt="Fried Rice with grilled fish and vegetables"
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover"
+                  style={{ objectFit: "cover" }}
+                />
+              </div>
               <CardContent className="p-4 sm:p-6">
                 <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg sm:text-xl font-semibold">Vegetarian Jollof</h3>
-                  <Badge variant="secondary">$10</Badge>
+                  <h3 className="text-lg sm:text-xl font-semibold">Chicken Fried Rice</h3>
+                  <Badge variant="secondary">$16.99</Badge>
                 </div>
                 <p className="text-sm sm:text-base text-muted-foreground mb-4">
-                  Plant-based jollof rice with mixed vegetables, maintaining all the traditional flavors
-                </p>
-                <div className="flex items-center">
-                  <div className="flex text-yellow-400">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current" />
-                    ))}
-                  </div>
-                  <span className="ml-2 text-xs sm:text-sm text-muted-foreground">(4.8)</span>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="sm:col-span-2 lg:col-span-1">
-              <div className="h-40 sm:h-48 bg-gradient-to-br from-purple-400 to-pink-500 rounded-t-lg"></div>
-              <CardContent className="p-4 sm:p-6">
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg sm:text-xl font-semibold">Seafood Jollof</h3>
-                  <Badge variant="secondary">$15</Badge>
-                </div>
-                <p className="text-sm sm:text-base text-muted-foreground mb-4">
-                  Premium jollof rice with fresh shrimp and fish, a coastal West African favorite
+                  Flavorful chicken fried rice with mixed vegetables and tender chicken pieces, cooked with traditional
+                  West African seasonings and spices.
                 </p>
                 <div className="flex items-center">
                   <div className="flex text-yellow-400">
@@ -151,6 +158,43 @@ export default function Home() {
                     ))}
                   </div>
                   <span className="ml-2 text-xs sm:text-sm text-muted-foreground">(4.9)</span>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="sm:col-span-2 lg:col-span-1 overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+              <div className="h-40 sm:h-48 relative rounded-t-lg overflow-hidden bg-gradient-to-br from-green-100 to-orange-50">
+                <Image
+                  src="/images/vegetarian-jollof.jpeg"
+                  alt="Vegetarian Jollof Rice with mixed vegetables, corn, peas and fried plantains"
+                  width={400}
+                  height={300}
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  style={{
+                    objectFit: "cover",
+                    objectPosition: "center center",
+                    filter: "brightness(1.05) contrast(1.1) saturate(1.1)",
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+              </div>
+              <CardContent className="p-4 sm:p-6 bg-white">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg sm:text-xl font-semibold text-gray-900">Vegetarian Jollof</h3>
+                  <Badge variant="secondary" className="bg-green-100 text-green-800 font-semibold">
+                    $13.99
+                  </Badge>
+                </div>
+                <p className="text-sm sm:text-base text-muted-foreground mb-4 leading-relaxed">
+                  Plant-based jollof rice with mixed vegetables, maintaining all the traditional flavors
+                </p>
+                <div className="flex items-center">
+                  <div className="flex text-yellow-400">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3 h-3 sm:w-4 sm:h-4 fill-current drop-shadow-sm" />
+                    ))}
+                  </div>
+                  <span className="ml-2 text-xs sm:text-sm text-muted-foreground font-medium">(4.8)</span>
                 </div>
               </CardContent>
             </Card>
@@ -183,7 +227,7 @@ export default function Home() {
                     <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span>Sat 6PM-12AM</span>
+                        <span>Sat 4PM-12AM</span>
                       </div>
                     </div>
                   </div>
@@ -203,7 +247,7 @@ export default function Home() {
                     <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span>Thu 6PM-11PM</span>
+                        <span>Thu 4PM-10PM</span>
                       </div>
                     </div>
                   </div>
@@ -223,7 +267,7 @@ export default function Home() {
                     <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span>Sat 6PM-11PM</span>
+                        <span>Sat 12PM-7PM</span>
                       </div>
                     </div>
                   </div>
@@ -241,7 +285,7 @@ export default function Home() {
                     <div className="flex items-center gap-4 text-xs sm:text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
                         <Clock className="w-3 h-3 sm:w-4 sm:h-4" />
-                        <span>Sun 10AM-5:30PM</span>
+                        <span>Sun 10AM-5PM</span>
                       </div>
                     </div>
                   </div>

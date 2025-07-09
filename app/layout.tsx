@@ -3,6 +3,7 @@ import Link from "next/link"
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { Logo } from "@/app/components/logo"
+import { Button } from "@/components/ui/button"
 import "./globals.css"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -56,12 +57,11 @@ export default function RootLayout({ children }) {
                 >
                   Contact
                 </Link>
-                <Link
-                  href="/contact"
-                  className="text-sm font-medium hover:text-orange-600 hover:underline underline-offset-4"
-                >
-                  Book Catering
-                </Link>
+                <Button size="sm" className="bg-orange-600 text-white hover:bg-orange-700 ml-1 sm:ml-2">
+                  <Link href="/contact" className="text-white">
+                    Book Catering
+                  </Link>
+                </Button>
               </nav>
             </div>
           </header>

@@ -186,7 +186,7 @@ export default function Contact() {
                       <p className="text-muted-foreground mb-2">47-01 111th St, Corona, NY 11368</p>
                       <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4" />
-                        <span>Saturdays 6PM-12AM</span>
+                        <span>Saturdays 4PM-12AM</span>
                       </div>
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export default function Contact() {
                       <p className="text-muted-foreground mb-2">West 181st St & Broadway, New York, NY 10033</p>
                       <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4" />
-                        <span>Thursdays 6PM-11PM</span>
+                        <span>Thursdays 4PM-10PM</span>
                       </div>
                     </div>
                   </div>
@@ -210,7 +210,7 @@ export default function Contact() {
                       <p className="text-muted-foreground mb-2">East Fordham Rd & Grand Concourse, Bronx, NY 10458</p>
                       <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4" />
-                        <span>Saturdays 6PM-11PM</span>
+                        <span>Saturdays 12PM-7PM</span>
                       </div>
                     </div>
                   </div>
@@ -222,7 +222,7 @@ export default function Contact() {
                       <p className="text-muted-foreground mb-2">100 W 77th St, New York, NY 10024</p>
                       <div className="flex items-center gap-1 text-sm text-muted-foreground">
                         <Clock className="w-4 h-4" />
-                        <span>Sundays 10AM-5:30PM</span>
+                        <span>Sundays 10AM-5PM</span>
                       </div>
                     </div>
                   </div>
