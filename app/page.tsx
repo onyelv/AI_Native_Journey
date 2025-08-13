@@ -102,8 +102,8 @@ export default function Home() {
                   height={300}
                   className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                   style={{
+                    color: "transparent",
                     objectFit: "cover",
-                    objectPosition: "center 30%",
                     filter: "brightness(1.05) contrast(1.1) saturate(1.1)",
                   }}
                   priority

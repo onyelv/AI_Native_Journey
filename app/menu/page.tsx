@@ -32,13 +32,13 @@ export default function Menu() {
                 <div className="h-48 relative rounded-t-lg overflow-hidden bg-gradient-to-br from-orange-100 to-orange-50">
                   <Image
                     src="/images/classic-jollof-rice-new.jpeg"
-                    alt="Classic Chicken Jollof with fried chicken, plantains and coleslaw"
+                    alt="Classic Jollof Rice with fried chicken, plantains and coleslaw"
                     width={400}
                     height={300}
                     className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                     style={{
+                      color: "transparent",
                       objectFit: "cover",
-                      objectPosition: "center 30%",
                       filter: "brightness(1.05) contrast(1.1) saturate(1.1)",
                     }}
                     priority
@@ -136,24 +136,40 @@ export default function Menu() {
                 </CardContent>
               </Card>
 
-              <Card>
-                <div className="h-48 bg-gradient-to-br from-red-400 to-pink-500 rounded-t-lg"></div>
-                <CardContent className="p-6">
+              <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                <div className="h-48 relative rounded-t-lg overflow-hidden bg-gradient-to-br from-red-100 to-orange-50">
+                  <Image
+                    src="/images/beef-jollof.jpeg"
+                    alt="Beef Jollof Rice with tender beef chunks in takeout container"
+                    width={400}
+                    height={300}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    style={{
+                      objectFit: "cover",
+                      objectPosition: "center center",
+                      filter: "brightness(1.05) contrast(1.1) saturate(1.1)",
+                    }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent"></div>
+                </div>
+                <CardContent className="p-6 bg-white">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-semibold">Beef Jollof</h3>
-                    <Badge variant="secondary">$18.99</Badge>
+                    <h3 className="text-xl font-semibold text-gray-900">Beef Jollof</h3>
+                    <Badge variant="secondary" className="bg-red-100 text-red-800 font-semibold">
+                      $18.99
+                    </Badge>
                   </div>
-                  <p className="text-muted-foreground mb-4">
+                  <p className="text-muted-foreground mb-4 leading-relaxed">
                     Rich and hearty jollof rice with tender beef chunks, slow-cooked to perfection with traditional
                     spices and seasonings.
                   </p>
                   <div className="flex items-center">
                     <div className="flex text-yellow-400">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-current" />
+                        <Star key={i} className="w-4 h-4 fill-current drop-shadow-sm" />
                       ))}
                     </div>
-                    <span className="ml-2 text-sm text-muted-foreground">(4.8)</span>
+                    <span className="ml-2 text-sm text-muted-foreground font-medium">(4.8)</span>
                   </div>
                 </CardContent>
               </Card>
