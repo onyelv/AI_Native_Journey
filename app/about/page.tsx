@@ -24,15 +24,23 @@ export default function About() {
           <div className="prose prose-lg mx-auto">
             <h2 className="text-3xl font-bold mb-6">Our Story</h2>
             <p className="text-lg text-muted-foreground mb-6">
-              The Jollof Guys was born from a passion for sharing the authentic flavors of West Africa with New York
-              City. Founded by immigrants who missed the taste of home, we set out to bring traditional jollof rice
-              recipes to the diverse food scene of NYC.
+              The Jollof Guys was created from my passion for bringing authentic Cameroonian and West African flavors to
+              New York City in a way that feels both traditional and approachable. As someone with Cameroonian and
+              Nigerian roots, I noticed that many West African cuisines were still underrepresented in the city&apos;s
+              food scene despite the growing demand for bold, flavorful international food.
+            </p>
+
+            <p className="text-lg text-muted-foreground mb-6">
+              What started as cooking for friends, family, and community gatherings quickly turned into something
+              bigger. People connected not just with the smoky, rich flavor of the jollof rice, but with the story and
+              culture behind it. That inspired me to build a brand that could introduce more people to the warmth,
+              hospitality, and energy of West African cuisine.
             </p>
 
             <p className="text-lg text-muted-foreground mb-8">
-              Our recipes have been passed down through generations, originating from the kitchens of Nigeria, Ghana,
-              and Senegal. We believe that food is more than sustenance—it's a bridge between cultures, a way to share
-              stories, and a means to bring people together.
+              At The Jollof Guys, every plate is inspired by the flavors I grew up around and the vibrant street-food
+              culture found across West Africa. For me, food is more than just a meal — it&apos;s a way to connect
+              cultures, create community, and give people an experience they remember long after the last bite.
             </p>
 
             <h2 className="text-3xl font-bold mb-6">Our Mission</h2>
